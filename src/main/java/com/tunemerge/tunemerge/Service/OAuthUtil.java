@@ -27,9 +27,9 @@ import org.springframework.web.client.RestTemplate;
 public  class OAuthUtil {
 
 
-    private static final String CLIENT_ID = "e80ca1772ab3487ca2092bd8de12fb35";
-    private static final String CLIENT_SECRET= "7a43835ef73545258aef33809b98ff28";
-    private static final String REDIRECT_URI = "http://localhost:8080/tune_merge";
+    private static final String CLIENT_ID = "";
+    private static final String CLIENT_SECRET= "";
+    private static final String REDIRECT_URI = "";
     
     /**
      * Generates the authorization URL for Spotify OAuth authentication.
