@@ -24,42 +24,42 @@ import org.springframework.web.client.RestTemplate;
  * Utility class for handling OAuth authentication with Spotify.
  */
 @Service
-public  class OAuthUtil {
+public class OAuthUtil {
 
-
-    private static final String CLIENT_ID = "e80ca1772ab3487ca2092bd8de12fb35";
-    private static final String CLIENT_SECRET= "7a43835ef73545258aef33809b98ff28";
+    private static final String CLIENT_ID = "";
+    private static final String CLIENT_SECRET = "";
     private static final String REDIRECT_URI = "http://localhost:8080/tune_merge";
-    
+
     /**
      * Generates the authorization URL for Spotify OAuth authentication.
      * 
      * @return The authorization URL.
      */
-    public static String getAuthURL (){
-        String scope="playlist-read-public playlist-read-private";
-        String authURL="https://accounts.spotify.com/authorize?"
-        +"client_id="+CLIENT_ID
-        +"&response_type=code"
-        +"&redirect_uri="+REDIRECT_URI;
+    public static String getAuthURL() {
+        String scope = "playlist-read-public playlist-read-private";
+        String authURL = "https://accounts.spotify.com/authorize?"
+                + "client_id=" + CLIENT_ID
+                + "&response_type=code"
+                + "&redirect_uri=" + REDIRECT_URI;
 
         return authURL;
     }
+
     @Autowired
     accessToken at;
     @Autowired
     AccessTokenRepository accessTokenRepository;
 
-/**
-     * Retrieves the access token from Spotify using the provided authorization code.
+    /**
+     * Retrieves the access token from Spotify using the provided authorization
+     * code.
      *
      * @param code The authorization code.
      * @return The access token.
      */
 
-//------------------------------------------somendra---------------------------------------------------------------------------
+    // ------------------------------------------somendra---------------------------------------------------------------------------
     public accessToken getAccessToken(String code) {
-
 
         RestTemplate restTemplate = new RestTemplate();
 
@@ -67,18 +67,18 @@ public  class OAuthUtil {
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
         headers.setBasicAuth(CLIENT_ID, CLIENT_SECRET);
 
-        MultiValueMap<String, String> map= new LinkedMultiValueMap<>();
+        MultiValueMap<String, String> map = new LinkedMultiValueMap<>();
         map.add("grant_type", "authorization_code");
         map.add("code", code);
         map.add("redirect_uri", REDIRECT_URI);
 
         HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(map, headers);
 
-        ResponseEntity<accessToken> response = restTemplate.postForEntity("https://accounts.spotify.com/api/token", request, accessToken.class);
-        accessToken token= response.getBody();
+        ResponseEntity<accessToken> response = restTemplate.postForEntity("https://accounts.spotify.com/api/token",
+                request, accessToken.class);
+        accessToken token = response.getBody();
         assert token != null;
         accessTokenRepository.save(token);
-
 
         return token;
     }
