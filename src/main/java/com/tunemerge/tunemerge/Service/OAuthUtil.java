@@ -29,7 +29,7 @@ public  class OAuthUtil {
 
     private static final String CLIENT_ID = "";
     private static final String CLIENT_SECRET= "";
-    private static final String REDIRECT_URI = "";
+    private static final String REDIRECT_URI = "http://localhost:8080/tune_merge";
     
     /**
      * Generates the authorization URL for Spotify OAuth authentication.

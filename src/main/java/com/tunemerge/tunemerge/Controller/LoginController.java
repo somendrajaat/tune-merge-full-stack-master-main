@@ -15,8 +15,7 @@ public class LoginController {
 
     @Autowired
     OAuthUtil oauthUtil;
-    @Autowired
-    SpotifyService spotifyService;
+
 
     @GetMapping("/loginSpotify")
     public RedirectView login() {
@@ -37,39 +36,6 @@ public class LoginController {
         return oauthUtil.getAccessToken(code);
     }
 
-    @GetMapping("/getuser")
-    public String getUser() {
-        System.out.println("hello");
-        accessToken token = spotifyService.getAccessToken();
-        if (token == null || token.getAccess_token() == null) {
-            return "No access token found";
-        }
-        // return "hello";
-        // get profile ko access token chahiye jo ki hum line number 48 ki through le
-        // aayenge
-        return spotifyService.getProfile(token.getAccess_token());
-    }
-
-    @GetMapping("/getplaylists")
-    public String getPlaylists() {
-        System.out.println("hello");
-        accessToken token = spotifyService.getAccessToken();
-        if (token == null || token.getAccess_token() == null) {
-            return "No access token found";
-        }
-        return spotifyService.getUserPlaylists(token.getAccess_token());
-    }
-
-
-    @GetMapping("/getplaylist")
-    public String getPlaylist() {
-        System.out.println("hello");
-        accessToken token = spotifyService.getAccessToken();
-        if (token == null || token.getAccess_token() == null) {
-            return "No access token found";
-        }
-        return spotifyService.getPlaylistItems(token.getAccess_token(),"4gV9FZJ5s8oBzEwMAuLhuE");
-    }
 
 
 
