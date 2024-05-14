@@ -19,20 +19,18 @@ public class LoginController {
 
     @GetMapping("/loginSpotify")
     public RedirectView login() {
+
         String authURL = oauthUtil.getAuthURL();
-        System.out.println("hello");
         return new RedirectView(authURL);
     }
 
     // ---------------------------------------somendra--------------------------------------------------------------
     @PostMapping("/tune_merge")
-    // @ResponseBody
     public accessToken token(@RequestParam("code") String code) {
 
         // yeh post request karega spotify ki web api ko udher se access token aayega jo
         // database me jayega sidha
 
-        System.out.println("hello");
         return oauthUtil.getAccessToken(code);
     }
 

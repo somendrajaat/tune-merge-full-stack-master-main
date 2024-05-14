@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tunemerge.tunemerge.Model.Album.AlbumResponse;
 import com.tunemerge.tunemerge.Model.SpotifyModel.PlaylistResponse;
+import com.tunemerge.tunemerge.Model.SpotifyModel.SinglePlaylist;
 import com.tunemerge.tunemerge.Model.accessToken;
 import com.tunemerge.tunemerge.Model.userProfile.UserProfile;
 import com.tunemerge.tunemerge.Repository.AccessTokenRepository;
@@ -104,7 +105,7 @@ public class SpotifyService {
 
 
 
-    public String getPlaylistItems(String accessToken, String playlistId) {
+    public SinglePlaylist getPlaylistItems(String accessToken, String playlistId) {
         RestTemplate restTemplate = new RestTemplate();
 
         HttpHeaders headers = new HttpHeaders();
@@ -116,9 +117,17 @@ public class SpotifyService {
 
         ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.GET, entity, String.class);
         if (response.getStatusCode() == HttpStatus.OK) {
-            return response.getBody();
+            String json = response.getBody();
+            ObjectMapper objectMapper = new ObjectMapper();
+            objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+            try {
+                return objectMapper.readValue(json, SinglePlaylist.class);
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            }
         } else {
-            return "Error";
+            return null;
         }
     }
 
